@@ -55,26 +55,9 @@ public class MinionThread extends Creature
 
         while (!enteredHouse)
         {
-            synchronized (cottage.minionsWaitingToEnterQueueLock)
-            {
-                System.out.println(name + " checking " + cottage.minionsWaitingToEnterQueue.peek().toString());
-                if (cottage.minionsWaitingToEnterQueue.peek().toString().equals(name)) // at front of queue
-                {
-                    if (Driver.ALL_LOGGER || Driver.MINION_LOGGER) System.out.println(name + " has entered the house.");
-                    cottage.minionsWaitingToEnterQueue.poll();
-                    enteredHouse = true;
-                    cottage.minionsWaitingToEnterQueueLock.notify();
+            enteredHouse = cottage.isMinionsReadyToEnterHouse(this);
 
-                    if (cottage.minionsWaitingToEnterQueue.isEmpty())
-                    {
-                        cottage.allMinionsHaveEnteredHouse = true;
-                    }
-                }
-                else
-                {
-                    cottage.minionsWaitingToEnterQueueLock.wait();
-                }
-            }
+            Thread.sleep(1000); // allow others to check
         }
     }
 }

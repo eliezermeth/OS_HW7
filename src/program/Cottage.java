@@ -76,4 +76,20 @@ public class Cottage
         else
             System.out.println("ERROR *** ERROR *** ERROR *** ERROR *** ERROR *** ERROR *** ERROR *** ERROR");
     }
+
+    public synchronized boolean isMinionsReadyToEnterHouse(Runnable r)
+    {
+        System.out.println(r.toString() + " checking " + minionsWaitingToEnterQueue.peek().toString());
+
+        if (r.toString().equals(minionsWaitingToEnterQueue.peek().toString())) // correct minion
+        {
+            System.out.println(r.toString() + " has entered the house.");
+            minionsWaitingToEnterQueue.poll();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
