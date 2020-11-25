@@ -1,0 +1,62 @@
+Alice, Bob, 7 dwarfs, 10 minions (all threads)
+
+create Alice, Bob
+Bob goes to sleep
+create minions
+create dwarfs
+
+for minions and dwarfs, unordered:
+    Alice makes lunch
+    if subject is dwarf:
+        Alice gives subject lunch, kiss
+        says "Have a good day"
+    else (minion)
+        Alice gives subject lunch, kiss
+        says "Have a good day"
+int minionsExited = 0
+int dwarfsExited = 0
+start and operate during and after prior for loop:
+    if (minionsExited = 10 && dwarfsExited = 7)
+        break
+    if (subject is minion)
+        go to work in deli (sleep x + rand)
+        increment minionsExited
+    else if (subject is dwarf & minionsExited is not 7)
+        skip
+    else (subject is dwarf and minionsExited is 7)
+        go to work in mine (sleep y + rand)
+
+Alice wake Bob, gives lunch and kiss, Bob goes to work as accountant
+
+minions return to outside house and enter queue (size 10)
+when queue full, signal Alice with knock on door
+Alice opens door
+queue enters in order, play
+
+dwarfs return to outside house and enter stack (size 7)
+when stack full and minions have already entered, signal Alice with knock on door
+Alice opens door
+stack enters in order, play (outside?)
+
+Bob goes to outside house
+if all dwarfs inside (don't need to check minions), Bob enters by himself
+
+(Alice prepares dinner)
+table has 5 seats
+everyone tries to eat
+when minion or dwarf finished eating, goes to bed
+    if dwarf:
+        waits for bathroom to be empty (semaphore)
+        uses bathroom
+        goes to bedroom
+    else:
+        goes to bedroom
+subject waits for sleep (s + rand), then kill thread
+
+after all dwarfs and minions asleep:
+create couch (array 2)
+turn on light:
+    when person on couch, light is on
+Alice and Bob each sit on seat to read book (r + rand)
+when person finished reading, go to sleep (kill thread)
+(when both asleep, turn off light)
