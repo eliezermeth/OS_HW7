@@ -1,5 +1,8 @@
 import java.util.Random;
 
+/**
+ * Extends Thread.  Used by human or creatures that goes to work.
+ */
 public abstract class Worker extends Thread
 {
     // Strings
@@ -18,12 +21,20 @@ public abstract class Worker extends Thread
     // Random
     Random random = new Random();
 
+    /**
+     * Constructor with name.
+     * @param name Name.
+     */
     public Worker(String name)
     {
         super(name);
         this.name = name;
     }
 
+    /**
+     * Gets lunch for worker.
+     * @throws InterruptedException Thread.
+     */
     protected void getLunch() throws InterruptedException
     {
         synchronized (this)
@@ -39,12 +50,21 @@ public abstract class Worker extends Thread
         }
     }
 
+    /**
+     * Go to work.
+     * @throws InterruptedException Thread.
+     */
     protected void work() throws InterruptedException
     {
         Thread.sleep(workTime + random.nextInt(workAllowedOvertime));
         System.out.println(name + " is finished working at the " + workPlace + " and is now heading home.");
     }
 
+    /**
+     * Eat dinner.
+     * @param eatingText Text displayed when eating.
+     * @throws InterruptedException Thread.
+     */
     protected void eatDinner(String eatingText) throws InterruptedException
     {
         synchronized (Main.alice) // depends on Alice
@@ -71,12 +91,21 @@ public abstract class Worker extends Thread
         }
     }
 
+    /**
+     * Method for worker to go to sleep.
+     * @param sleepingText Text displayed when falls asleep.
+     * @throws InterruptedException Thread.
+     */
     protected void fallAsleep(String sleepingText) throws InterruptedException
     {
         Thread.sleep(Main.TIME_TO_FALL_ASLEEP);
         System.out.println(sleepingText);
     }
 
+    /**
+     * Returns name of thread when toString() is called.
+     * @return String of name of thread.
+     */
     public String toString()
     {
         return getName();

@@ -1,9 +1,17 @@
-import java.util.Queue;
 import java.util.Stack;
 
+/**
+ * Class for dwarf.  Extends Creature, which extends Worker.
+ */
 public class DwarfThread extends Creature
 {
 
+    /**
+     * Constructor for dwarf.  Sets name, work info, and lunch and play info.
+     * @param c Identifying character.
+     * @param i ID.
+     * @param name Name.
+     */
     public DwarfThread(char c, int i, String name)
     {
         super(c, i, name);
@@ -16,11 +24,19 @@ public class DwarfThread extends Creature
         playOutsideString = "is going to play outside and scrub his hands in the tub for dinner.";
     }
 
+    /**
+     * Simple constructor for dwarf.  Only needs ID and name.
+     * @param i ID.
+     * @param name Name.
+     */
     public DwarfThread(int i, String name)
     {
         this('d', i, name);
     }
 
+    /**
+     * Wait outside cottage for all dwarfs to arrive home from work.
+     */
     @Override
     protected void waitForFriends()
     {
@@ -40,6 +56,9 @@ public class DwarfThread extends Creature
         }
     }
 
+    /**
+     * Go to bathroom before bed.
+     */
     @Override
     protected void goToBathroom()
     {

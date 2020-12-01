@@ -1,18 +1,17 @@
 import java.util.Queue;
-import java.util.Random;
 import java.util.Stack;
 
+/**
+ * Thread for Alice.
+ */
 public class AliceThread extends Thread
 {
     // Strings
-    private String name;
+    private final String name;
 
     // Booleans
     public boolean madeDinner;
     public boolean reading;
-
-    // Random
-    Random random = new Random();
 
     public AliceThread()
     {
@@ -20,6 +19,9 @@ public class AliceThread extends Thread
         name = "Alice";
     }
 
+    /**
+     * Method to run Alice's day.
+     */
     @Override
     public void run()
     {
@@ -32,7 +34,7 @@ public class AliceThread extends Thread
             awaitCreaturesComingHome(Main.dwarfQueue); // dwarfs
             notifyBob();
             makeDinner();
-            waitForCreaturesToSleep();
+            waitForCreaturesToSleepAndRead();
             sleep();
         }
         catch (InterruptedException e)
@@ -41,6 +43,10 @@ public class AliceThread extends Thread
         }
     }
 
+    /**
+     * Method to make Alice to make lunch for minions and dwarfs.
+     * @throws InterruptedException Threads.
+     */
     private void makeLunches() throws InterruptedException
     {
         // in order of leaving - minions then dwarfs
@@ -55,6 +61,11 @@ public class AliceThread extends Thread
         }
     }
 
+    /**
+     * Accepts a creature and gives him lunch.
+     * @param c Creature (dwarf or minion).
+     * @throws InterruptedException Threads.
+     */
     private void makeLunchForCreature(Creature c) throws InterruptedException
     {
         synchronized (c) // take control of minion temporarily
@@ -66,6 +77,10 @@ public class AliceThread extends Thread
         }
     }
 
+    /**
+     * Slap the lazy man awake and send him off to work.
+     * @throws InterruptedException Thread.
+     */
     private void slapBobAwake() throws InterruptedException
     {
         BobThread bob = Main.bob;
@@ -79,7 +94,12 @@ public class AliceThread extends Thread
         }
     }
 
-    // for minions // TODO figure out how to merge
+    /**
+     * Method to hold the minions outside and allow them inside when they all arrived.
+     * TODO figure out how to merge with other awaitCreaturesComingHome
+     * @param creatures Queue of creatures, since the first to arrive is the first to enter.
+     * @throws InterruptedException Threads.
+     */
     private void awaitCreaturesComingHome(Queue<Creature> creatures) throws InterruptedException
     {
         synchronized (creatures)
@@ -109,6 +129,12 @@ public class AliceThread extends Thread
     }
 
     // for dwarfs // TODO figure out how to merge
+    /**
+     * Method to hold the dwarfs outside and allow them inside when they all arrived.
+     * TODO figure out how to merge with other awaitCreaturesComingHome
+     * @param creatures Stack of creatures, since the first to arrive is the last to enter.
+     * @throws InterruptedException Threads.
+     */
     private void awaitCreaturesComingHome(Stack<Creature> creatures) throws InterruptedException
     {
         synchronized (creatures)
@@ -137,15 +163,23 @@ public class AliceThread extends Thread
         }
     }
 
+    /**
+     * Tell Bob he is allowed to enter the house now.
+     */
     private void notifyBob()
     {
         synchronized (Main.bob)
         {
             Main.bob.turnToGoInside = true;
+            System.out.println("Bob can now enter the cottage.");
             Main.bob.notify();
         }
     }
 
+    /**
+     * Make dinner for all members of the cottage.
+     * @throws InterruptedException Threads.
+     */
     private void makeDinner() throws InterruptedException
     {
         Thread.sleep(Main.TIME_TO_EAT_DINNER * 20); // time to make dinner = 1 per body + 2 (or 1)
@@ -159,7 +193,10 @@ public class AliceThread extends Thread
         }
     }
 
-    private void waitForCreaturesToSleep()
+    /**
+     * Wait for creatures to sleep, then read book
+     */
+    private void waitForCreaturesToSleepAndRead()
     {
         while (Thread.activeCount() > 4); // creatures awake
 
@@ -173,9 +210,22 @@ public class AliceThread extends Thread
         }
     }
 
+    /**
+     * Go to sleep.
+     * @throws InterruptedException Threads.
+     */
     private void sleep() throws InterruptedException
     {
         Thread.sleep(Main.TIME_TO_FALL_ASLEEP * 5); // extended time for human
         System.out.println(name + " has fallen asleep.");
+    }
+
+    /**
+     * Returns name of thread when toString() is called.
+     * @return String of name.
+     */
+    public String toString()
+    {
+        return getName();
     }
 }

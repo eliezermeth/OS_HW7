@@ -1,9 +1,11 @@
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Random;
 import java.util.Stack;
 import java.util.concurrent.Semaphore;
 
+/**
+ * Class to run program.
+ */
 public class Main
 {
     // constants
@@ -52,25 +54,21 @@ public class Main
     public static final int MAX_FOR_RANDOM_TIME_IN_BATHROOM = 700;
     public static final int TIME_TO_FALL_ASLEEP = 300; // milliseconds to fall asleep
 
+    /**
+     * Main method.  Activiates threads.
+     * @param args Parameters.
+     */
     public static void main(String[] args)
     {
         wakeupCreatures(); // create and start creatures
-        wakeupHumans();// create and start humans
-
-        while (Thread.activeCount() > 2)
-        {
-            if (alice.reading || bob.reading)
-            {
-                if (!(aliceReading || bobReading))
-                {
-                    aliceReading = alice.reading;
-                    bobReading = bob.reading;
-                }
-            }
-        }
+        wakeupHumans(); // create and start humans
+        humansRead(); // Alice and Bob read
         System.out.println("Lights go out.");
     }
 
+    /**
+     * Create and wake up minions and dwarfs.
+     */
     private static void wakeupCreatures()
     {
         // create and start minions
@@ -88,6 +86,9 @@ public class Main
         }
     }
 
+    /**
+     * Create and wake up humans.
+     */
     private static void wakeupHumans()
     {
         // create and start Alice
@@ -97,5 +98,17 @@ public class Main
         // create and start Bob
         bob = new BobThread();
         bob.start();
+    }
+
+    /**
+     * Make the humans read at the end of the day.
+     */
+    private static void humansRead()
+    {
+        while (Thread.activeCount() > 2) // only Alice and Bob left awake
+        {
+            aliceReading = alice.reading; // set to reading
+            bobReading = bob.reading; // set to reading
+        }
     }
 }

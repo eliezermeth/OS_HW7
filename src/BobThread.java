@@ -1,9 +1,15 @@
+/**
+ * Thread for Bob.  Extends Worker.
+ */
 public class BobThread extends Worker
 {
     // Booleans
     public boolean allowedToGoToSleep;
     public boolean reading;
 
+    /**
+     * Constructor for Bob.  Sets name, work info, and lunch info.
+     */
     public BobThread()
     {
         super("Bob");
@@ -15,17 +21,21 @@ public class BobThread extends Worker
         receivedLunchString = "Looks good.";
     }
 
+    /**
+     * Run Bob's day.
+     */
     @Override
     public void run()
     {
         try
         {
             System.out.println(name + " is now awake.");
+            System.out.println(name + " went back to sleep.");
             getLunch();
             work();
             enterCottage();
             eatDinner(name + " is now eating dinner.");
-            waitForSleepAlert();
+            waitToGoToSleep();
             fallAsleep(name + " has fallen asleep.");
         }
         catch (InterruptedException e)
@@ -34,16 +44,19 @@ public class BobThread extends Worker
         }
     }
 
-    private void enterCottage() throws InterruptedException
+    /**
+     * Print Bob entering cottage.
+     */
+    private void enterCottage()
     {
-        while (!Main.dwarfsInsideCottage)
-        {
-            this.wait();
-        }
         System.out.println(name + " lets himself into the cottage.");
     }
 
-    private void waitForSleepAlert() throws InterruptedException
+    /**
+     * Wait to go to sleep and read in the meantime.
+     * @throws InterruptedException Threads.
+     */
+    private void waitToGoToSleep() throws InterruptedException
     {
         synchronized (this)
         {
